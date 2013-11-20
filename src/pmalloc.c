@@ -35,11 +35,6 @@
     } \
     } while(0)
 
-void
-plibc_free(void *ptr){
-    free(ptr);
-}
-
 static size_t used_memory = 0;
 static int pmalloc_thread_safe = 0;
 pthread_mutex_t used_memory_mutex = PTHREAD_MUTEX_INITIALIZER;

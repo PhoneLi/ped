@@ -10,6 +10,7 @@ putestInitWithFuncs(void (**_fun)(void) , int index){
 
 void
 pmalloc_test(){
+    pmalloc_enable_thread_safeness();
     printf("char : %zu \nsize : %zu \n" , sizeof(char) , sizeof(size_t));
 
     char * dm = (char *)pmalloc(sizeof(char) * 512);
@@ -31,10 +32,10 @@ pmalloc_test(){
     char * pl = pstrdup("hello w");
     printf("pl : %s \n" , pl);
     printf(" userd memory : %zu\n framentation_ratio : %lf\n rss : %zu\n private_dirty : %zu\n" , 
-           pmalloc_used_memory() , 
-           pmalloc_get_fragmentation_ratio() ,
-           pmalloc_get_rss() ,
-           pmalloc_get_private_dirty()
+               pmalloc_used_memory() , 
+               pmalloc_get_fragmentation_ratio() ,
+               pmalloc_get_rss() ,
+               pmalloc_get_private_dirty()
            );
     pfree(pl);
     
