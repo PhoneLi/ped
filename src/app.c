@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "pe.h"
 #include "pmalloc.h"
 
 void

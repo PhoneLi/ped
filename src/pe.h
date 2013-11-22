@@ -68,7 +68,7 @@ typedef struct peFiredEvent {
 } peFiredEvent;
 
 /* State of an event based program */
-typedef struct aeEventLoop {
+typedef struct peEventLoop {
     int maxfd;   /* highest file descriptor currently registered */
 
     int setsize; /* max number of file descriptors tracked */
@@ -91,24 +91,30 @@ typedef struct aeEventLoop {
 } peEventLoop;
 
 /* Prototypes */
-peEventLoop *aeCreateEventLoop(int setsize);
-void aeDeleteEventLoop(peEventLoop *eventLoop);
-void aeStop(peEventLoop *eventLoop);
-int aeCreateFileEvent(peEventLoop *eventLoop, int fd, int mask,
+peEventLoop *peCreateEventLoop(int setsize);
+void peDeleteEventLoop(peEventLoop *eventLoop);
+void peStop(peEventLoop *eventLoop);
+int peCreateFileEvent(peEventLoop *eventLoop, int fd, int mask,
                       peFileProc *proc, void *clientData);
-void aeDeleteFileEvent(peEventLoop *eventLoop, int fd, int mask);
-int aeGetFileEvents(peEventLoop *eventLoop, int fd);
-long long aeCreateTimeEvent(peEventLoop *eventLoop, long long milliseconds,
+void peDeleteFileEvent(peEventLoop *eventLoop, int fd, int mask);
+int peGetFileEvents(peEventLoop *eventLoop, int fd);
+long long peCreateTimeEvent(peEventLoop *eventLoop, long long milliseconds,
                             peTimeProc *proc, void *clientData,
                             peEventFinalizerProc *finalizerProc);
-int aeDeleteTimeEvent(peEventLoop *eventLoop, long long id);
-int aeProcessEvents(peEventLoop *eventLoop, int flags);
-int aeWait(int fd, int mask, long long milliseconds);
-void aeMain(peEventLoop *eventLoop);
-char *aeGetApiName(void);
-void aeSetBeforeSleepProc(peEventLoop *eventLoop, peBeforeSleepProc *beforesleep);
+int peDeleteTimeEvent(peEventLoop *eventLoop, long long id);
+int peProcessEvents(peEventLoop *eventLoop, int flags);
+int peWait(int fd, int mask, long long milliseconds);
+void peMain(peEventLoop *eventLoop);
+char *peGetApiName(void);
+void peSetBeforeSleepProc(peEventLoop *eventLoop, peBeforeSleepProc *beforesleep);
 
 #endif
+
+
+
+
+
+
 
 
 

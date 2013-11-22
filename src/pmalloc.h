@@ -9,12 +9,20 @@
 #define __xstr(s) __str(s)
 #define __str(s)  #s
 
+
+/*=============================================*/
 /* Test for proc filesystem */
 #ifdef __linux__
 #define HAVE_PROC_STAT 1
 #define HAVE_PROC_MAPS 1
 #define HAVE_PROC_SMAPS 1
 #endif
+
+/* Test for polling API */
+#ifdef __linux__
+#define HAVE_EPOLL 1
+#endif
+/*=============================================*/
 
 #ifndef ZMALLOC_LIB
 #define ZMALLOC_LIB "libc"
