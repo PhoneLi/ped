@@ -11,21 +11,24 @@ INSTDIR = ./out
 # Options for release
 # CFLAGS = -O -Wall -std=c99 -pedantic 
 
-
 LIB  = epdlib.a
 
+# app vars
+_PED_C = $(wildcard ./p*.c)
+PED_C  = $(notdir $(_PED_C))
+PED_O  = $(patsubst %.c,%.o,$(PED_C))
+PED    = $(patsubst %.c,%,$(PED_C))
+
+app: app.o $(LIB)
+	$(CC) $(CFLAGS) -o app app.o $(LIB)
+
+$(LIB):   $(LIB)($(PED_O))
+app.o:    app.c
+$(PED_O): $(PED_C)
 
 #Tool command
+echo:
+	@echo " $(_PED_C) --- $(PED_C) --- $(PED_O) --- $(PED)"
+
 clean:
-	-rm app $(TEST) *.o $(LIB)
-
-uninstall:clean
-	-rm -rf $(INSTDIR)
-
-install:app
-ifeq ($(INSTDIR),$(wildcard $(INSTDIR)))
-	@echo "Sorry , $(INSTDIR) does exist . Please uninstall.";
-else
-	@mkdir $(INSTDIR); \
-	cp app $(INSTDIR);
-endif
+	-rm app  *.o $(LIB)
