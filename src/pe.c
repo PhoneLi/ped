@@ -1,15 +1,5 @@
 
-#include <stdio.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <poll.h>
-#include <string.h>
-#include <time.h>
-
 #include "pe.h"
-#include "pmalloc.h"
 
 /* Include the best multiplexing layer supported by this system.
  * The following should be ordered by performances, descending. */

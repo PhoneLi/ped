@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pe.h"
-#include "pmalloc.h"
 
 void
 putestInitWithFuncs(void (**_fun)(void) , int index){
@@ -43,11 +42,32 @@ pmalloc_test(){
 }
 
 int
+printfAfter5Seconds(struct peEventLoop *loop , long long id , void *clientData){
+    printf("Hello World\n");
+    return PE_NOMORE;
+}
+
+void
+TimeEvent_test(void){
+    peEventLoop *loop = peCreateEventLoop(100);
+    peCreateTimeEvent(loop , 5000 , printfAfter5Seconds , NULL ,NULL);
+  
+  /*
+    peMain(loop);
+  */
+    peProcessEvents(loop , PE_ALL_EVENTS);
+
+    peDeleteEventLoop(loop);
+    return;
+}
+
+int
 main(int argv , char * args[])
 {
     if(argv > 1){
         void (*fun[])(void) = {
-            pmalloc_test
+            pmalloc_test,
+            TimeEvent_test
         };
         putestInitWithFuncs(fun ,(int) *args[1]);
     }

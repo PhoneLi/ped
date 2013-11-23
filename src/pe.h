@@ -1,7 +1,16 @@
-#ifndef _PE_H_
-#define _PE_H_
+#ifndef __PE_H__
+#define __PE_H__
 
+#include <stdio.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <poll.h>
+#include <string.h>
 #include <time.h>
+
+#include "pmalloc.h"
 
 /* Event execute status */
 #define PE_OK     0
@@ -86,27 +95,26 @@ typedef struct peEventLoop {
     int stop;
 
     void *apidata; /* This is used for polling API specific data */
-    // 在处理事件前要执行的函数
+
     peBeforeSleepProc *beforesleep;
 } peEventLoop;
 
-/* Prototypes */
+
 peEventLoop *peCreateEventLoop(int setsize);
-void peDeleteEventLoop(peEventLoop *eventLoop);
-void peStop(peEventLoop *eventLoop);
-int peCreateFileEvent(peEventLoop *eventLoop, int fd, int mask,
-                      peFileProc *proc, void *clientData);
-void peDeleteFileEvent(peEventLoop *eventLoop, int fd, int mask);
-int peGetFileEvents(peEventLoop *eventLoop, int fd);
+void   peDeleteEventLoop(peEventLoop *eventLoop);
+void   peStop(peEventLoop *eventLoop);
+int    peCreateFileEvent(peEventLoop *eventLoop, int fd, int mask,
+                         peFileProc *proc, void *clientData);
+void   peDeleteFileEvent(peEventLoop *eventLoop, int fd, int mask);
+int    peGetFileEvents(peEventLoop *eventLoop, int fd);
 long long peCreateTimeEvent(peEventLoop *eventLoop, long long milliseconds,
-                            peTimeProc *proc, void *clientData,
-                            peEventFinalizerProc *finalizerProc);
-int peDeleteTimeEvent(peEventLoop *eventLoop, long long id);
-int peProcessEvents(peEventLoop *eventLoop, int flags);
-int peWait(int fd, int mask, long long milliseconds);
-void peMain(peEventLoop *eventLoop);
-char *peGetApiName(void);
-void peSetBeforeSleepProc(peEventLoop *eventLoop, peBeforeSleepProc *beforesleep);
+                            peTimeProc *proc, void *clientData, peEventFinalizerProc *finalizerProc);
+int    peDeleteTimeEvent(peEventLoop *eventLoop, long long id);
+int    peProcessEvents(peEventLoop *eventLoop, int flags);
+int    peWait(int fd, int mask, long long milliseconds);
+void   peMain(peEventLoop *eventLoop);
+char  *peGetApiName(void);
+void   peSetBeforeSleepProc(peEventLoop *eventLoop, peBeforeSleepProc *beforesleep);
 
 #endif
 

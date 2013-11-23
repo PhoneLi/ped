@@ -1,15 +1,15 @@
-
 #include <sys/epoll.h>
 #include <unistd.h>
 #include "pe.h"
-#include "pmalloc.h"
 
 typedef struct peApiState {
     int epfd;
     struct epoll_event *events;
 } peApiState;
 
-static int peApiCreate(peEventLoop *eventLoop) {
+static 
+int
+peApiCreate(peEventLoop *eventLoop) {
     peApiState *state = pmalloc(sizeof(peApiState));
 
     if (!state) return -1;
@@ -28,7 +28,9 @@ static int peApiCreate(peEventLoop *eventLoop) {
     return 0;
 }
 
-static void peApiFree(peEventLoop *eventLoop) {
+static 
+void 
+peApiFree(peEventLoop *eventLoop) {
     peApiState *state = eventLoop->apidata;
 
     close(state->epfd);
@@ -36,7 +38,9 @@ static void peApiFree(peEventLoop *eventLoop) {
     pfree(state);
 }
 
-static int peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
+static 
+int 
+peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     peApiState *state = eventLoop->apidata;
     struct epoll_event ee;
     /* If the fd was already monitored for some event, we need a MOD
@@ -54,7 +58,9 @@ static int peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     return 0;
 }
 
-static void peApiDelEvent(peEventLoop *eventLoop, int fd, int delmask) {
+static 
+void 
+peApiDelEvent(peEventLoop *eventLoop, int fd, int delmask) {
     peApiState *state = eventLoop->apidata;
     struct epoll_event ee;
     int mask = eventLoop->events[fd].mask & (~delmask);
@@ -73,7 +79,9 @@ static void peApiDelEvent(peEventLoop *eventLoop, int fd, int delmask) {
     }
 }
 
-static int peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
+static 
+int 
+peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     peApiState *state = eventLoop->apidata;
     int retval, numevents = 0;
 
@@ -98,6 +106,8 @@ static int peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     return numevents;
 }
 
-static char *peApiName(void) {
+static 
+char *
+peApiName(void) {
     return "epoll";
 }
