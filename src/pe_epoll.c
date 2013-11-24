@@ -7,8 +7,7 @@ typedef struct peApiState {
     struct epoll_event *events;
 } peApiState;
 
-static 
-int
+static int 
 peApiCreate(peEventLoop *eventLoop) {
     peApiState *state = pmalloc(sizeof(peApiState));
 
@@ -28,8 +27,7 @@ peApiCreate(peEventLoop *eventLoop) {
     return 0;
 }
 
-static 
-void 
+static void 
 peApiFree(peEventLoop *eventLoop) {
     peApiState *state = eventLoop->apidata;
 
@@ -38,8 +36,7 @@ peApiFree(peEventLoop *eventLoop) {
     pfree(state);
 }
 
-static 
-int 
+static int 
 peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     peApiState *state = eventLoop->apidata;
     struct epoll_event ee;
@@ -58,8 +55,7 @@ peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     return 0;
 }
 
-static 
-void 
+static void 
 peApiDelEvent(peEventLoop *eventLoop, int fd, int delmask) {
     peApiState *state = eventLoop->apidata;
     struct epoll_event ee;
@@ -79,8 +75,7 @@ peApiDelEvent(peEventLoop *eventLoop, int fd, int delmask) {
     }
 }
 
-static 
-int 
+static int 
 peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     peApiState *state = eventLoop->apidata;
     int retval, numevents = 0;
@@ -95,7 +90,7 @@ peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
             int mask = 0;
             struct epoll_event *e = state->events+j;
 
-            if (e->events & EPOLLIN) mask |= PE_READABLE;
+            if (e->events & EPOLLIN)  mask |= PE_READABLE;
             if (e->events & EPOLLOUT) mask |= PE_WRITABLE;
             if (e->events & EPOLLERR) mask |= PE_WRITABLE;
             if (e->events & EPOLLHUP) mask |= PE_WRITABLE;
@@ -106,8 +101,7 @@ peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     return numevents;
 }
 
-static 
-char *
+static char *
 peApiName(void) {
     return "epoll";
 }

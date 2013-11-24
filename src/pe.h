@@ -30,7 +30,6 @@
 /* Decide to Continue to perform Time Event */
 #define PE_NOMORE   -1
 
-/* Macros */
 #define PE_NOTUSED(V) ((void) V)
 
 /* Event Process Status */
