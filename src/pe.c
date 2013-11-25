@@ -3,6 +3,7 @@
 
 /* Include the best multiplexing layer supported by this system.
  * The following should be ordered by performances, descending. */
+/* #undef HAVE_EPOLL */
 #ifdef HAVE_EPOLL
     #include "pe_epoll.c"
 #else
@@ -162,7 +163,6 @@ peDeleteTimeEvent(peEventLoop *eventLoop, long long id){
     te = eventLoop->timeEventHead;
     while(te) {
         if (te->id == id) {
-
             if (prev == NULL)
                 eventLoop->timeEventHead = te->next;
             else
@@ -170,16 +170,13 @@ peDeleteTimeEvent(peEventLoop *eventLoop, long long id){
 
             if (te->finalizerProc)
                 te->finalizerProc(eventLoop, te->clientData);
-
             pfree(te);
-
             return PE_OK;
         }
         prev = te;
         te = te->next;
     }
-
-    return PE_ERR; /* NO event with the specified ID found */
+    return PE_ERR; 
 }
 
 /* Search the first timer to fire.

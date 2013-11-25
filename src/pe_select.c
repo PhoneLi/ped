@@ -1,6 +1,8 @@
 #include <sys/types.h>
 #include <sys/times.h>
 #include <sys/select.h>
+
+#include "pmalloc.h"
 #include "pe.h"
 
 typedef struct peApiState {

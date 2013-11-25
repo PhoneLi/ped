@@ -1,5 +1,7 @@
 #include <sys/epoll.h>
 #include <unistd.h>
+
+#include "pmalloc.h"
 #include "pe.h"
 
 typedef struct peApiState {

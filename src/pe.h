@@ -21,7 +21,7 @@
 #define PE_READABLE  1
 #define PE_WRITABLE  2
 
-/* Time Process' Execute  */
+/* TimeEvent Process' Execute  */
 #define PE_FILE_EVENTS  1
 #define PE_TIME_EVENTS  2
 #define PE_ALL_EVENTS   (PE_FILE_EVENTS|PE_TIME_EVENTS)
