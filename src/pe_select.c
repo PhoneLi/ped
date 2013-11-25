@@ -1,6 +1,8 @@
 #include <sys/types.h>
 #include <sys/times.h>
 #include <sys/select.h>
+
+#include "pmalloc.h"
 #include "pe.h"
 
 typedef struct peApiState {
@@ -10,8 +12,7 @@ typedef struct peApiState {
     fd_set _rfds, _wfds;
 } peApiState;
 
-static 
-int 
+static int 
 peApiCreate(peEventLoop *eventLoop) {
     peApiState *state = pmalloc(sizeof(peApiState));
 
@@ -22,14 +23,12 @@ peApiCreate(peEventLoop *eventLoop) {
     return 0;
 }
 
-static 
-void 
+static void 
 peApiFree(peEventLoop *eventLoop) {
     pfree(eventLoop->apidata);
 }
 
-static 
-int 
+static int 
 peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     peApiState *state = eventLoop->apidata;
 
@@ -38,8 +37,7 @@ peApiAddEvent(peEventLoop *eventLoop, int fd, int mask) {
     return 0;
 }
 
-static 
-void 
+static void 
 peApiDelEvent(peEventLoop *eventLoop, int fd, int mask) {
     peApiState *state = eventLoop->apidata;
 
@@ -47,8 +45,7 @@ peApiDelEvent(peEventLoop *eventLoop, int fd, int mask) {
     if (mask & PE_WRITABLE) FD_CLR(fd,&state->wfds);
 }
 
-static 
-int 
+static int 
 peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     peApiState *state = eventLoop->apidata;
     int retval, j, numevents = 0;
@@ -76,8 +73,7 @@ peApiPoll(peEventLoop *eventLoop, struct timeval *tvp) {
     return numevents;
 }
 
-static 
-char *
+static char *
 peApiName(void) {
     return "select";
 }
